@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div id="maindiv">
+
+  
+
+
+    <div id="firstdeck" >
+
+        
+        <div id="result_nav">
+            {% include 'navbar.html' %}
+        </div>
+
+
+        {% include 'maindash.html' with object=students %}
+        {% if students.picture %}
+        <div id="seconddeck">
+            <div id="batchone">
+                <a href="{% url 'student_profile' students.id %}">Edit</a>
+            </div>
+            
+            <div id="batchtwo">
+                <img src="{{students.picture.url}}" alt="">
+
+        </div>
+    </div>
+    
+        {% else %}
+    <div id="seconddeck">
+            <div id="batchone">
+                <a href="{% url 'student_profile' students.id %}">Edit</a>
+            </div>
+
+        <div id="batchtwo">
+           
+
+        </div>
+            
+    </div>
+        {% endif %}
+
+    
+
+       
+            
+        
+
+
+
+
+</div>
+
+
+</div>
+ 
+{% endblock %}

@@ -1,0 +1,190 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+<div id=landingbody>
+       
+
+
+    
+
+        <div id=header>
+            {% include 'navbar.html' %}
+
+
+            
+            <div id="holder">
+               
+            
+            
+            <div id=bgtext>
+                <h1>A Digital Toolkit For Schools</h1> 
+
+                <p>Get upto 30% discount on every purchase</p>
+
+                <button>Explore Now &raquo;</button>
+            </div >
+
+          
+        </div>
+
+
+    </div>
+
+
+<div id="article_section">
+    {% for object in objects %}
+    <div id="article"> 
+        
+        {% if object.image %}
+
+
+        <div id="post_head">
+        <h2>{{object.title}}</h2>
+        <small>{{object.date_added}}</small>
+    </div>
+    
+            <div id="post">
+                
+
+               <div id="postimage">
+                    <img src="{{object.image.url}}" alt="">
+                </div> 
+
+
+               <div id="postcontent">
+                    
+                    <p>{{object.content|truncatewords:40}}</p>
+                    <a href="">View More &raquo;</a>
+                </div> 
+
+              
+        </div>   
+    
+ 
+        {% endif %}
+    </div>
+        
+        
+    <hr>        
+   
+    {% endfor %}
+    
+    
+  
+</div>
+
+
+
+
+
+        <div id=featured>
+
+
+            <div id="featuredmenu">
+                
+
+
+                <div id="featuredimg">
+                    <img src="{%static '/media/fe1.png' %}" alt="">
+                </div>
+
+
+
+                <div id="featuredtext">  
+
+                        <h2>Bookstore</h2>
+                </div>
+            </div>
+
+
+                    
+
+
+
+
+        <div id="featuredmenu">
+                
+
+
+                <div id="featuredimg">
+                    <img src="{%static '/media/fe3.png' %}" alt="">
+                </div>
+
+
+
+                <div id="featuredtext">  
+
+                        <h2>About Us</h2>
+                </div>
+            </div>
+
+
+
+
+
+
+
+
+
+        <div id="featuredmenu">
+                
+
+
+                <div id="featuredimg">
+                    <img src="{%static '/media/fe2.png' %}" alt="">
+                </div>
+
+
+
+                <div id="featuredtext">  
+
+                        <h2>FaQ</h2>
+                </div>
+            </div>
+
+        </div>
+
+
+
+
+
+        <div id="contactus">
+
+
+
+
+            <div id="contact">
+                <img src="../../../static/media/contact.jpg" alt="">
+
+            </div>
+
+
+            
+
+            <div id="contactbox">
+                <form action="" method="POST" >{%csrf_token%}
+                    <label for="message_name">Name:
+                    <input type="text" name="message_name" placeholder="Enter your Name" id="message_name"></label><br>
+
+                    <label for="email">Address
+                    <input type="text" name="from_email" placeholder="Email Address" id="email"></label><br>
+
+                    <label for="message">Message
+                    <input type="text" name="message" placeholder="Write a message" id="message"><br></label>
+
+                    <button type="submit">Send Message</button>
+                </form>
+            </div>
+
+
+        </div>
+   
+
+
+
+    </div>
+
+{% endblock %}
+

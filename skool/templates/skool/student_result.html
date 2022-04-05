@@ -1,0 +1,50 @@
+{% extends 'base.html'%}
+{% load static %}
+
+{% block content%}
+
+<div class="studentbody">
+    {% include 'navbar.html' %}
+    <div class="studentheader">
+
+    </div>
+<br><hr>
+
+<table>
+    <thead>
+        <tr>
+            <th>Student</th>
+            <th>Course</th>
+            <th>Level</th>
+            <th>Grade</th>
+            <th>Review</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        {% if result %}
+        {% for result in result %}
+        <tr>
+            <td>{{result.studentprofile}}</td>
+            <td>{{result.course}}</td>
+            <td>{{result.current_level}}</td>
+            <td>{{result.grade}}</td>
+            <td>{{result.review}}</td>
+               
+        </tr>
+        {% endfor %}
+        
+        {% else %}
+        <tr>
+            <td>{{result.studentprofile}}</td>
+            <td>{{result.course}}</td>
+            <td>{{result.current_level}}</td>
+            <td>{{result.grade}}</td>
+            <td>{{result.review}}</td>
+        </tr>
+        {% endif %}
+    </tbody>
+
+</table>
+</div>
+{%endblock %}

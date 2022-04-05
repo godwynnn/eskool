@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content%}
+
+<div class="maindiv">
+    {% include 'navbar.html' %}
+    <h1>{{student.name}}-Result detail</h1>
+    <div class="firstdeck">
+
+        {% include 'maindash.html' with object=student %}
+
+        <div class="seconddeck">
+            <div class="batchone">
+                <h2>NUMBER OF....</h2>
+            </div>
+            <div class="batchtwo">
+                <h3>Total: <strong>Null</strong></h3>
+
+            </div>
+        </div>
+    </div>
+<br><hr>
+
+<table>
+    <thead>
+        <tr>
+            <th>Student</th>
+            <th>Course</th>
+            <th>Level</th>
+            <th>Grade</th>
+            <th>Review</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        {% if result %}
+        {% for result in result %}
+        <tr>
+            <td>{{result.studentprofile}}</td>
+            <td>{{result.course}}</td>
+            <td>{{result.current_level}}</td>
+            <td>{{result.grade}}</td>
+            <td>{{result.review}}</td>
+            <td><a href="{%url 'createresult_page' student.id %}">Create </a></td>
+               
+        </tr>
+        {% endfor %}
+        {% else %}
+        <tr>
+            <td>{{result.studentprofile}}</td>
+            <td>{{result.course}}</td>
+            <td>{{result.current_level}}</td>
+            <td>{{result.grade}}</td>
+            <td>{{result.review}}</td>
+            <td><a href="{%url 'createresult_page' student.id %}">Create </a></td>
+               
+        </tr>
+        {% endif %}
+    </tbody>
+
+</table>
+</div>
+
+
+{% endblock %}

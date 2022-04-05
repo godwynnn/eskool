@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+  <form action="" method="POST">{% csrf_token %}
+    {{form.username.label}}
+    {{form.username}}<br><br>
+    
+    {{form.email.label}}
+    {{form.email}}<br><br>
+
+    {{form.password1.label}}
+    {{form.password1}}<br><br>
+    
+    {{form.password2.label}}
+    {{form.password2}}<br><br>
+
+
+    <em>Signup as</em>
+    <input type="radio" name="position" value="teacher" id="teacher"><label for="teacher">Teacher</label>
+    <input type="radio" name="position" value="student" id="student"><label for="student">Student</label><br><br>
+    <button type="submit">Sign-up</button><br><br>
+    <a href="{%url 'login_page' %}">Already have an account? Login</a><br>
+{{forms.errors}}
+</form>
+
+{% endblock %}
+

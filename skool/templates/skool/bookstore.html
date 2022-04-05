@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+
+{% block content %}
+    
+        
+
+    {% for product in products %}
+
+
+
+            {% if product.image %}
+    
+                
+                        <img src="{{product.image.url}}" alt="">
+                            <h2>{{product.name}}</h2>
+                            <em>{{product.description| truncatewords:10}}</em>
+                            <small>View</small>
+                            <a href="{%url '' %}"><button>Add to cart</button></a>
+                        {%endif%}
+
+        {%endfor%}
+       
+
+{% endblock %}

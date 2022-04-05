@@ -1,0 +1,49 @@
+{% load static %}
+
+<nav id="navbar">
+
+    <div class="logo">
+        <p>Eskool</p>
+    </div>
+    <input type="checkbox" value="" id="check">
+    <label for="check" id="toggle" class="checkbtn">
+
+    </label>
+
+    <ul class="menu">
+        <li><a href="" class="active">home</a></li>
+        <li><a href="">courses</a></li>
+        <li><a href="">about us</a></li>
+        <li><a href="">contact</a></li>
+        <li><a href="">FAQ</a></li>
+        <button class="btn btn-success">Log in</button>
+    </ul>
+
+
+</nav>
+
+<script>
+    // navbar script
+    navbar=document.getElementById('navbar')
+    window.addEventListener('scroll',()=>{
+       let scrolled=window.scrollY;
+        if(scrolled>=30 ){
+            navbar.style.backgroundColor='rgb(25, 25, 46)';
+            navbar.style.transition= '1s ease'
+            // console.log('scrolled')
+        }
+
+        else{
+            navbar.style.backgroundColor='transparent';
+        }
+    })
+
+    const toggle=document.getElementById('toggle');
+    const check=document.getElementById('check')
+    toggle.onclick=()=>{
+        
+        toggle.classList.toggle('active')
+    
+        
+    }
+</script>

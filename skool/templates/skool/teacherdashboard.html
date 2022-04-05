@@ -1,0 +1,53 @@
+{% extends 'base.html'%}
+{% load static %}
+
+{% block content%}
+<div class="maindiv">
+    {% include 'navbar.html' %}
+    
+    <div class="firstdeck">
+        <strong>Welcome-{{request.user}}</strong>
+        {% include 'maindash.html' %}
+
+        <div class="seconddeck">
+            <div class="batchone">
+                <h2>NUMBER OF   STUDENT</h2>
+            </div>
+            <div class="batchtwo">
+                <h3>Total: <strong>{{total_student}}</strong></h3>
+
+            </div>
+        </div>
+    </div>
+<br><hr>
+
+
+    <table>
+        <thead>
+            <tr>
+                <th>Names of student</th>
+                <th>Current class</th>
+                <th>Student Id</th>
+                <th>Date of Birth</th>
+                <th>Date admitted</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            {% for student in student_list %}
+            <tr>
+                <td>{{student}}</td>
+                <td>{{student.level}}</td>
+                <td>{{student.student_id}}</td>
+                <td>Null</td>
+                <td>Null</td>
+                <td><a href="{% url 'result_page' student.id %}"> View Details</a></td>
+                   
+            </tr>
+            {% endfor %}
+        </tbody>
+
+    </table>
+</div>
+
+{% endblock %}

@@ -1,0 +1,26 @@
+{% extends 'base.html'%}
+{% load static %}
+
+{% block content%}
+<form action="" method="POST">{% csrf_token %}
+    <label for="uname">Username
+        <input type="text" name="username" id="uname" placeholder="Enter username">
+    </label> <br><br>
+    <label for="pw">Password
+        <input type="password" name="password" id="pw" placeholder="Enter password">
+    </label>
+
+    <button type="submit">Login</button>
+    {% for message in messages %}
+        {{message}}
+    {% endfor %}
+</form>
+
+{%endblock %}
+
+
+
+
+   <!-- <input type="radio" name="position" value="teacher" id="teacher_login"><label for="teacher_login">Teacher</label>
+    <input type="radio" name="position" value="student" id="student_login"><label for="student_login">Student</label>
+    

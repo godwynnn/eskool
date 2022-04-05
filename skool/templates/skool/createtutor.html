@@ -1,0 +1,22 @@
+{% extends 'base.html'%}
+{% load static %}
+
+{% block content%}
+{% include 'navbar.html' %}
+<form action="" method="POST">{% csrf_token %}
+
+<h1>hello!! {{request.user}}</h1>
+<label for="">Your Name</label>
+{{form.name}}<br><br>
+
+<label for="">Your ID</label>
+{{form.teacher_id}}<br><br>
+
+<label for="">Your Email</label>
+{{form.teacher_email}}<br><br>
+
+<button type="submit">Save profile</button>
+<!-- <a href="/eskool/{{form.id}}/teacher">dashboard</a> -->
+
+</form>
+{%endblock %}
