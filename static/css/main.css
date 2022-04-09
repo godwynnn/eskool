@@ -36,6 +36,7 @@ nav{
     width: 100%;
     top: 0%;
     left: 0;
+    z-index: 5;
     /* box-shadow: 1px 1px 1px 0px rgb(25, 25, 46); */
 }
 .logo{
@@ -241,34 +242,44 @@ nav{
     min-height: 100vh;
     background-color: whitesmoke;
     padding: 5% 0%;
-    /* display: flex;
+     display: flex; 
     flex-direction: column;
-    justify-content: center;
-    align-items: center; */
+    /* justify-content: center;
+    align-items: center;  */
+    /* overflow: hidden; */
 }
 .testimony p{
     font-size: xx-large;
     text-align: center;
 }
 .testimonial_holder{
-    /* width: 100%; */
+    width: 100%;
     min-height: 100vh;
+    /* border: 1px solid blue; */
+    /* overflow: hidden; */
+    
 }
 .img img{
     width: 100%;
+    border-radius: 10%;
 }
 .img{
-    width: 20%;
+    width: 30%;
+    border-radius: 10%;
 }
 .arrow{
     display: block;
     position: absolute;
-    /* color: black; */
+    color: black;
     cursor: pointer;
     font-size: 2em;
     top: 505vh;
-    
-    /* z-index: 222222; */
+    transition: 1s ease;
+    /* border: 1px solid red; */
+    /* z-index: -2; */
+}
+.arrow:hover{
+    opacity: 55%;
 }
 .arrow:before{
     cursor: pointer;
@@ -285,9 +296,11 @@ nav{
     position: absolute;
     display: block;
     left: 0;
-    border: 1px solid red;
+    /* border: 1px solid red; */
     height: 20px;
-    top: 530vh;
+    top: 540vh;
+    z-index: 1;
+
    
     
 }
@@ -300,7 +313,103 @@ nav{
     border: 1px solid black;
     position: relative;
     margin: 0 10px;
+    cursor: pointer;
+    position: relative;
+    padding: 7px;
+    transition: 1s ease;
 }
+.dot:hover,
+.dots .active{
+    background-color: rgb(105, 105, 105);
+}
+.testimony_content{
+    /* border: 1px solid red; */
+    min-height: 80vh;
+    display: flex;
+    width: 300%;
+    
+    /* z-index: 5px; */
+    /* top: 480%; */
+  
+    left: 0;
+
+   /* flex-direction: column; */
+}
+.testimony_content .testimony_detail{
+    width: 100%;
+    display:flex;
+    justify-content: center; 
+    align-items: center; 
+    flex-direction: row;
+    overflow: hidden;
+    
+    min-height: 50vh;
+    padding: 2% 2%;
+    /* top: 500%; */
+    border: 1px solid red;
+    /* background-color: white; */
+   
+    /* margin: 0; */
+   
+
+}
+.testim{
+    width: 80%;
+    display: flex;
+    padding: 2% 4%;
+    min-height: 70vh;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: white;
+    line-height: 30px;
+    box-shadow: 1px 1px 2px 0px rgb(219, 218, 218);
+}
+.testimony_content .testimony_detail h3{
+    font-size: 20px;
+    text-align: center;
+}
+.testimony_content .testimony_detail p{
+    font-size: medium;
+    text-align: center;
+}
+/* **********************SWIPER.JS STYLING************************** */
+.swiper{
+    width: 50%;
+    height: 80vh;
+    
+}
+/* .swiper-wrapper{
+    width: 100%;
+    min-height: 100vh;
+    display: flex;
+    border: 1px solid red;
+    align-items: center;
+    justify-content: center;
+} */
+.swiper-slide{
+    width: 20%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 80vh;
+    background-color: white;
+    box-shadow: 1px 2px 2px 3px rgb(219, 218, 218);
+    border-radius: 5%;
+    padding: 1% 4%;
+    
+}
+.swiper-slide h2,.swiper-slide p{
+    font-size: large;
+}
+.swiper-slide h2{
+    font-size: 30px;
+}
+
+
+
+/* .testimony */
 /* BLOG */
 .blog_holder{
     width: 100%;
@@ -401,6 +510,7 @@ footer{
     }
     .checkbtn{
         display: block;
+        cursor: pointer;
 
     }
     #toggle{
