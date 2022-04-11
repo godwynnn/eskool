@@ -506,9 +506,18 @@ footer{
     width: 100%;
     min-height: 80vh;
     background-color: rgb(25, 25, 46);
+    display: flex;
+    flex-direction: column;
+    color: rgb(243, 243, 243);
 }
 .carousel{
     background-color: black;
+}
+
+.section_1{
+    display: flex;
+    flex-direction: row;
+    min-height: 60vh;
 }
 
 @media screen and (max-width:1227px){
