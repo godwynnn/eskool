@@ -139,20 +139,23 @@ nav{
     padding: 2%;
     background-color: white;
     box-shadow: 1px 1px 0px 1px rgb(219, 218, 218);
-    transition: 1s ease;
+    
     cursor: pointer;
     opacity: 0;
     transition: opacity 1s ease-in;
+    
     /* border-radius: 5px; */
     border-bottom-left-radius: 50px;
     border-top-right-radius: 50px;
 }
 .vision_content.appear{
     opacity: 1;
+    
 }
 .vision_content:hover{
     /* transform: translateY(-2%); */
     margin-top: -3%;
+    transition: 1s ease;
 }
 .vision_content i{
     font-size: 40px;
@@ -509,6 +512,7 @@ footer{
     display: flex;
     flex-direction: column;
     color: rgb(243, 243, 243);
+    padding: 4% 3%;
 }
 .carousel{
     background-color: black;
@@ -518,8 +522,45 @@ footer{
     display: flex;
     flex-direction: row;
     min-height: 60vh;
+    
 }
-
+.sub_section-1,.sub_section-2,.sub_section-3{
+    /* border: 1px solid red; */
+    width: 40%;
+    padding: 2% 3%;
+    min-height: 40vh;
+}
+.sub_section-1{
+    line-height: 25px;
+}
+.sub{
+    font-size: x-large;
+}
+.sub_section-2 li{
+    list-style: none;
+}
+.sub_section-2 li a{
+    font-size: 18px;
+    text-decoration: none;
+    color: white;
+    transition: 1s ease;
+}
+.sub_section-2 li a:hover{
+    color: tomato;
+}
+.newsletter input{
+    border: none;
+    min-height: 5.5vh;
+    width: 60%;
+    padding: 0% 2%;
+}
+.section_2{
+    width: 100%;
+    border-top: 1px solid whitesmoke;
+}
+/* .section_2 hr{
+    
+} */
 @media screen and (max-width:1227px){
     .menu{
         width: 85%;
@@ -536,6 +577,12 @@ footer{
         width: 85%;
         padding: 2% 0%;
     }
+    .sub_section-1,.sub_section-2,.sub_section-3{
+        /* border: 1px solid red; */
+        width: 50%;
+        padding: 2% 2%;
+        min-height: 40vh;
+    }
 }
 
 @media screen and (max-width:900px){
@@ -545,6 +592,12 @@ footer{
     }
     nav{
         padding: 3% 4%;
+    }
+    .sub_section-1,.sub_section-2,.sub_section-3{
+        /* border: 1px solid red; */
+        width: 50%;
+        padding: 2% 1%;
+        min-height: 40vh;
     }
 
 }
@@ -677,7 +730,36 @@ footer{
    .blog,.blog_holder button{
        margin-top: 4%;
    }
-
+   .section_1{
+    display: flex;
+    flex-direction: column;
+    min-height: 60vh;
+    /* justify-content: center;
+    align-items: center; */
+    
+}
+.sub_section-1,.sub_section-2,.sub_section-3{
+    width: 100%;
+    line-height: 40px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    /* justify-content: center; */
+}
+.sub_section-2{
+    /* line-height: 5px; */
+}
+.newsletter input{
+    width: 50%;
+}
+.newsletter{
+    /* border: 1px solid red; */
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+}
 }
 
 

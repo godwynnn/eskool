@@ -121,7 +121,7 @@ def Student_profile_page(request,pk):
             # obj.dob='esk'+ dob
             # obj.save()
             return redirect('student_page')
-            form=StudentProfileForm()
+        form=StudentProfileForm()
     context={'form':form}
     return render(request,'skool/student_create_page.html', context)
 
@@ -141,7 +141,7 @@ def Create_result_page(request,pk):
         if formset.is_valid():
             formset.save()
             return HttpResponseRedirect(reverse('result_page', args=[pk]))
-            formset=ResultFormSet()
+        formset=ResultFormSet()
     context={'formset': formset}
     return render(request,'skool/createresult.html',context)
 
