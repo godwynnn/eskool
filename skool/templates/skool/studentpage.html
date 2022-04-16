@@ -1,7 +1,111 @@
 {% extends 'base.html' %}
 {% load static %}
 
+
+
 {% block content %}
-{% include 'maindash.html' with object=students %}
- 
+<div class="dashboard">
+            <section class="dash_menu">
+                <div>
+                    <p>A<span>cademyco</span> </p>
+                </div>
+
+                <ul>
+                    <li class="dash_menu-li" onmouseover="changecolor(this)"><a href="">dashboard</a></li>
+                    <li class="dash_menu-li"  onmouseover="changecolor(this)"  ><a href="">payments</a></li>
+                    <li class="dash_menu-li"  onmouseover="changecolor(this)" ><a href="">events </a></li>
+                    <li class="dash_menu-li" onmouseover="changecolor(this)"  ><a href="">teachers</a></li>
+                    <li class="dash_menu-li" onmouseover="changecolor(this)" ><a href="">settings</a></li>
+                    <li class="dash_menu-li"  onmouseover="changecolor(this)"><a href="">chat</a></li>
+                    <li class="dash_menu-li"  onmouseover="changecolor(this)"><a href="">logout</a></li>
+                </ul>
+            </section>
+
+                
+<!-- MAIN DASHBOARD PAGE -->
+           
+        {% include 'maindash.html' with object=students %}
+
+<!-- result section -->
+
+                <section class="second_section">
+
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>S/N</th>
+                                <th>Subject</th>
+                                <th>Test 1</th>
+                                <th>Test 2</th>
+                                <th>Exam</th>
+                                <th>Total</th>
+                                <th>Review</th>
+
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            
+                            <tr>
+                                <td>1</td>
+                                <td>Civil Education</td>
+                                <td>18</td>
+                                <td>16</td>
+                                <td>40</td>
+                                <td>74</td>
+                                <td>b</td>
+                            </tr>
+
+                                 
+                            <tr>
+                                <td>2</td>
+                                <td>Civil Education</td>
+                                <td>18</td>
+                                <td>16</td>
+                                <td>40</td>
+                                <td>74</td>
+                                <td>b</td>
+                            </tr>
+
+
+                                 
+                            <tr>
+                                <td>3</td>
+                                <td>Civil Education</td>
+                                <td>18</td>
+                                <td>16</td>
+                                <td>40</td>
+                                <td>74</td>
+                                <td>b</td>
+                            </tr>
+
+                        </tbody>
+
+                    </table>
+                </section>
+            </div>
+
+
+
+</div>
+
+
 {% endblock %}
+
+
+<!-- <script>
+    
+    function changecolor(element){
+        
+        const text=element.innerText;
+        if(text.style.color='whitesmoke'){
+            text.style.color='black';
+        }else{
+            text.style.color='whitesmoke';
+        }
+        // element.style.backgroundColor='black';
+        // console.log(element.innerText)
+    }
+    
+</script> -->
+ 
