@@ -12,6 +12,7 @@ from .decorators import *
 from django.urls import reverse
 from django.http import HttpResponseRedirect
 from django.core.mail import send_mail
+from .filters import ResultFilter
 # Create your views here.
 
 @landingdecorator
@@ -163,7 +164,8 @@ def Teacher_Result_Page(request,pk):
 def Student_Page(request):
     students=StudentProfile.objects.get(user=request.user)
     # students=request.user.studentprofile
-    context={'students':students}
+    filter=ResultFilter()
+    context={'students':students,'filter':filter}
     return render(request,'skool/studentpage.html',context)
 
 

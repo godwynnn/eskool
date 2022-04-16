@@ -50,7 +50,7 @@ class StudentProfile(models.Model):
     date_added=models.DateField(auto_now_add=True)
 
     def __str__(self):
-        return self.name
+        return self.user.username
 
 
 
@@ -72,7 +72,7 @@ class Result(models.Model):
         ('Fail', 'Fail'),
     )
     studentprofile=models.ForeignKey(StudentProfile,default=1,null=True,on_delete=models.SET_NULL)
-    current_level=models.ForeignKey(Level,null=True,blank=True, on_delete=models.CASCADE)
+    level=models.ForeignKey(Level,null=True,blank=True, on_delete=models.CASCADE)
     course=models.ForeignKey(Courses,null=True,on_delete=models.CASCADE)
     grade=models.CharField(max_length=200,null=True,choices=Grade)
     review=models.CharField(max_length=200,null=True,choices=Review)

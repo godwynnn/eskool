@@ -5,4 +5,4 @@ class ResultFilter(django_filters.FilterSet):
     
     class Meta:
         model= Result
-        fields='__all__'
+        fields=['level','course']
