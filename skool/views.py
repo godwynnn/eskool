@@ -131,7 +131,7 @@ def Student_profile_page(request,pk):
 def Create_result_page(request,pk):
     
     ResultFormSet=inlineformset_factory(StudentProfile,Result, 
-    fields=('current_level','course','grade','review'), extra=10
+    fields=('current_level','course','term','first_test','second_test','exam','grade','review'), extra=10
     )
     
     student=request.user.teacherprofile.level.studentprofile_set.get(id=pk)

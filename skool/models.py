@@ -71,8 +71,17 @@ class Result(models.Model):
         ('Poor', 'Poor'),
         ('Fail', 'Fail'),
     )
+    Term=(
+        ('first','first'),
+        ('second','second'),
+        ('third','third')
+    )
     studentprofile=models.ForeignKey(StudentProfile,default=1,null=True,on_delete=models.SET_NULL)
     level=models.ForeignKey(Level,null=True,blank=True, on_delete=models.CASCADE)
+    term=models.CharField(max_length=200,null=True,choices=Term)
+    first_test=models.PositiveIntegerField(null=True,blank=True)
+    second_test=models.PositiveIntegerField(null=True,blank=True)
+    exam=models.PositiveIntegerField(null=True,blank=True)
     course=models.ForeignKey(Courses,null=True,on_delete=models.CASCADE)
     grade=models.CharField(max_length=200,null=True,choices=Grade)
     review=models.CharField(max_length=200,null=True,choices=Review)
@@ -83,6 +92,9 @@ class Result(models.Model):
 
     def __str__(self):
         return f'{self.studentprofile}'
+    
+    def total_score(self):
+        return self.first_test + self.second_test + self.exam
 
 
 

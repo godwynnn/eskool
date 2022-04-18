@@ -678,7 +678,26 @@ tbody tr {
     /* border: 1px solid red; */
     /* padding: 1% 2%; */
 }
-
+#id_level,#id_course,#id_term{
+    width: 90%;
+}
+.dashboard form{
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+    padding: 0;
+    /* border: 1px solid red; */
+    background-color: white;
+    margin-top: 2%;
+    box-shadow: 1px 2px 2px 0px rgb(221, 221, 221);
+}
+#id_level,#id_course,.filter_btn{
+    /* margin-left: 20px; */
+}
+.dashboard button{
+    margin-top: 4%;
+}
 
 
 @media screen and (max-width:1247px){
@@ -688,6 +707,12 @@ tbody tr {
     }
     .header{
         width: 60%;
+    }
+    .user_img{
+        width: 70%;
+    }
+    table{
+        width: 120%;
     }
 }
 
@@ -702,6 +727,12 @@ tbody tr {
         width: 50%;
         padding: 2% 2%;
         min-height: 40vh;
+    }
+    .user_img{
+        width:  80%;
+    }
+    table{
+        width: 125%;
     }
 }
 
@@ -718,6 +749,12 @@ tbody tr {
         width: 50%;
         padding: 2% 1%;
         min-height: 40vh;
+    }
+    .user_img{
+        width: 90%;
+    }
+    table{
+        width: 140%;
     }
 
 }
@@ -880,6 +917,37 @@ tbody tr {
     justify-content: center;
     gap: 5px;
 }
+.first_section{
+    display: flex;
+    flex-direction: column;
+}
+.user_detail{
+    /* border: 1px solid red; */
+    width: 100%;
+}
+.user_img{
+    width: 40%;
+}
+.user_img img{
+    height: 40vh;
+}
+.user_detail{
+ font-size: 18px;
+}
+.user_detail h4{
+    color: white;
+    margin-top: 6%;
+}
+table{
+    width: 150%;
+}
+.dash_menu li a {
+    font-size: 16px;
+}
+.dash_menu div p{
+    font-size: larger;
+}
+
 }
 
 
@@ -924,6 +992,15 @@ tbody tr {
     .swiper-slide h2{
         font-size: 25px;
     }
+    .dash_menu li a {
+        font-size: 14px;
+    }
+    .user_img img{
+        height: 35vh;
+    }
+    table{
+        width: 180%;
+    }
 }
 @media screen and (max-width:550px){
     .header{
@@ -957,6 +1034,22 @@ tbody tr {
     .menu li a,.menu button{
         font-size: 18px;
     }
+    .user_img{
+        width: 50%;
+    }
+    table{
+        width: 220%;
+    }
+    .filter_form{
+        display: flex;
+        flex-direction: column;
+        padding: 5% 2%;
+        min-height: 60vh;
+    }
+    #id_level,#id_course,#id_term{
+        width: 100%;
+    }
+
 }
 @media screen and (max-width:425px){
     .vision_content{
@@ -979,6 +1072,12 @@ tbody tr {
         height: 80vh;
         
     }
+    .user_img{
+        width: 55%;
+    }
+    table{
+        width: 250%;
+    }
 }
 @media screen and (max-width:385px){
     .header h1{
@@ -986,5 +1085,8 @@ tbody tr {
     }
     .header p{
         font-size: 16px;
+    }
+    table{
+        width: 280%;
     }
 }
