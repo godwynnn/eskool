@@ -34,29 +34,19 @@
     </thead>
 
     <tbody>
-        {% if result %}
+      
         {% for result in result %}
         <tr>
             <td>{{result.studentprofile}}</td>
             <td>{{result.course}}</td>
-            <td>{{result.current_level}}</td>
+            <td>{{result.level}}</td>
             <td>{{result.grade}}</td>
             <td>{{result.review}}</td>
-            <td><a href="{%url 'createresult_page' student.id %}">Create </a></td>
+            <td><a href="{%url 'update_result_page' student.id %}">Create </a></td>
                
         </tr>
         {% endfor %}
-        {% else %}
-        <tr>
-            <td>{{result.studentprofile}}</td>
-            <td>{{result.course}}</td>
-            <td>{{result.current_level}}</td>
-            <td>{{result.grade}}</td>
-            <td>{{result.review}}</td>
-            <td><a href="{%url 'createresult_page' student.id %}">Create </a></td>
-               
-        </tr>
-        {% endif %}
+        
     </tbody>
 
 </table>

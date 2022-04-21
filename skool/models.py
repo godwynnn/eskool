@@ -27,7 +27,7 @@ class TeacherProfile(models.Model):
         ordering=['-date_added']
 
     def __str__(self):
-        return f'{self.name}|{self.id_no}'
+        return f'{self.user.username}|{self.id_no}'
 
 
 

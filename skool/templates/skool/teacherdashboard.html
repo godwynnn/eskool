@@ -1,53 +1,96 @@
-{% extends 'base.html'%}
+{% extends 'base.html' %}
 {% load static %}
+{% load crispy_forms_tags %}
 
-{% block content%}
-<div class="maindiv">
-    {% include 'navbar.html' %}
+
+
+{% block content %}
+<div class="dashboard">
     
-    <div class="firstdeck">
-        <strong>Welcome-{{request.user}}</strong>
-        {% include 'maindash.html' %}
+            <section class="dash_menu">
+                <div>
+                    <p><img src="{%static 'media/logo2.png' %}" alt=""><span>cademyco</span> </p>
+                </div>
 
-        <div class="seconddeck">
-            <div class="batchone">
-                <h2>NUMBER OF   STUDENT</h2>
-            </div>
-            <div class="batchtwo">
-                <h3>Total: <strong>{{total_student}}</strong></h3>
+                <ul>
+                    <li class="dash_menu-li" onmouseover="changecolor(this)"><a href="">dashboard</a></li>
+                    <li class="dash_menu-li"  onmouseover="changecolor(this)"  ><a href=""><i class="fa-solid fa-money-bill"></i></i>payments</a></li>
+                    <li class="dash_menu-li"  onmouseover="changecolor(this)" ><a href="">events </a></li>
+                    <li class="dash_menu-li" onmouseover="changecolor(this)"  ><a href="">teachers</a></li>
+                    <li class="dash_menu-li" onmouseover="changecolor(this)" ><a href="">settings</a></li>
+                    <li class="dash_menu-li"  onmouseover="changecolor(this)"><a href="">chat</a></li>
+                    <li class="dash_menu-li"  onmouseover="changecolor(this)"><a href="">logout</a></li>
+                </ul>
+            </section>
 
-            </div>
-        </div>
-    </div>
-<br><hr>
+                
+<!-- MAIN DASHBOARD PAGE -->
 
+        {% include 'maindash.html' with object=students %}
+       
 
-    <table>
-        <thead>
-            <tr>
-                <th>Names of student</th>
-                <th>Current class</th>
-                <th>Student Id</th>
-                <th>Date of Birth</th>
-                <th>Date admitted</th>
-            </tr>
-        </thead>
+<!-- result section -->
+                <!-- <form action="" class="filter_form" method="GET">
+                    {{filter.form|crispy}}
+                    
+                    <button type="submit" class="btn btn-md btn-primary filter_btn">Search</button>
+                </form> -->
+                <section class="second_section">
 
-        <tbody>
-            {% for student in student_list %}
-            <tr>
-                <td>{{student}}</td>
-                <td>{{student.level}}</td>
-                <td>{{student.student_id}}</td>
-                <td>Null</td>
-                <td>Null</td>
-                <td><a href="{% url 'result_page' student.id %}"> View Details</a></td>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Names of student</th>
+                                <th>Current class</th>
+                                <th>Student Id</th>
+                                <th>Date of Birth</th>
+                                <th>Date admitted</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            
+                            <tr>
+                                {% for student in student_list %}
+                                <tr>
+                                    <td>{{student}}</td>
+                                    <td>{{student.level}}</td>
+                                    <td>{{student.student_id}}</td>
+                                    <td>Null</td>
+                                    <td>Null</td>
+                                <td><button class="btn btn-sm btn-info"><a href="{% url 'result_page' student.id %}" style="text-decoration: none;">view details</a></button></td>
+                           {%endfor%}
+                            </tr>
+
+                        </tbody>
+
+                    </table>
                    
-            </tr>
-            {% endfor %}
-        </tbody>
+                </section>
+                <button class="btn btn-secondary btn-sm">Upload result</button>
+            </div>
 
-    </table>
+
+
 </div>
 
+
 {% endblock %}
+
+
+<!-- <script>
+    
+    function changecolor(element){
+        
+        const text=element.innerText;
+        if(text.style.color='whitesmoke'){
+            text.style.color='black';
+        }else{
+            text.style.color='whitesmoke';
+        }
+        // element.style.backgroundColor='black';
+        // console.log(element.innerText)
+    }
+    
+</script> -->
+ 
