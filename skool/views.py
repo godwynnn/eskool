@@ -1,3 +1,4 @@
+from multiprocessing import context
 from django.shortcuts import render,redirect,get_object_or_404
 from .models import *
 from .forms import *
@@ -131,8 +132,7 @@ def Student_profile_page(request,pk):
 def Update_result_page(request,pk):
     
     ResultFormSet=inlineformset_factory(StudentProfile,Result, 
-    fields=('level','course','term','first_test','second_test','exam','grade','review'), extra=10
-    )
+    fields=('level','course','term','first_test','second_test','exam','grade','review'), extra=5)
     
     student=request.user.teacherprofile.level.studentprofile_set.get(id=pk)
     
@@ -144,10 +144,23 @@ def Update_result_page(request,pk):
             return HttpResponseRedirect(reverse('result_page', args=[pk]))
         formset=ResultFormSet()
     context={'formset': formset}
+    return render(request,'skool/updateresult.html',context)
+
+
+
+def Create_result_page(request,pk):
+    ResultFormset=inlineformset_factory(StudentProfile,Result,fields=('course','term','first_test','second_test','exam'),extra=5)
+
+    student=StudentProfile.objects.get(id=pk)
+    formset=ResultFormset(request.POST or None, instance=student,queryset=Result.objects.none())
+    if request.method=='POST':
+        if formset.is_valid():
+            formset.save()
+            return HttpResponseRedirect(reverse('result_page'))
+    formset=ResultFormset()
+    context={'formset':formset,'student':student}
     return render(request,'skool/createresult.html',context)
 
-def Create_result_page(request):
-    pass
 
 
 def Teacher_Result_Page(request,pk):
