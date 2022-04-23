@@ -1,0 +1,49 @@
+{% extends 'base.html'%}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block content%}
+<div class="result_dashboard">
+
+    <section class="dash_menu">
+        <div>
+            <p><img src="{%static 'media/logo2.png' %}" alt=""><span>cademyco</span> </p>
+        </div>
+
+        <ul>
+            <li class="dash_menu-li" onmouseover="changecolor(this)"><a href="">dashboard</a></li>
+            <li class="dash_menu-li"  onmouseover="changecolor(this)"  ><a href=""><i class="fa-solid fa-money-bill"></i></i>payments</a></li>
+            <li class="dash_menu-li"  onmouseover="changecolor(this)" ><a href="">events </a></li>
+            <li class="dash_menu-li" onmouseover="changecolor(this)"  ><a href="">teachers</a></li>
+            <li class="dash_menu-li" onmouseover="changecolor(this)" ><a href="">settings</a></li>
+            <li class="dash_menu-li"  onmouseover="changecolor(this)"><a href="">chat</a></li>
+            <li class="dash_menu-li"  onmouseover="changecolor(this)"><a href="">logout</a></li>
+        </ul>
+    </section>
+
+        
+
+         <div class="create_result-section" >
+
+            <form action="" method="POST">{% csrf_token %}
+                {{formset.management_form}}
+               {% for form in formset %} 
+               <div class="result_form">
+                {{form|crispy}}  
+               </div><br><br><hr>
+              
+                {% endfor %}
+               <button type="submit" class="btn btn-success btn-md">Submit</button>
+            </form>
+           
+        </div>
+        
+    </div>
+
+
+
+</div>
+
+{%endblock %}
+
+
