@@ -93,7 +93,7 @@ def Teacher_page(request):
     teacher=request.user.teacherprofile
     course=teacher.courses_set.all()
     level=teacher.level
-    
+    print('BODY OUTPUT :', request.body)
     context={'student_list': student,
      'object':teacher,
      'courses':course,
@@ -127,15 +127,12 @@ def Student_profile_page(request,pk):
     context={'form':form}
     return render(request,'skool/student_create_page.html', context)
 
-
-
 def Update_result_page(request,pk):
-    
     ResultFormSet=inlineformset_factory(StudentProfile,Result, 
-    fields=('level','course','term','first_test','second_test','exam','grade','review'), extra=5)
-    
+    fields=('level','course','term','first_test','second_test','exam'), extra=5)
+        
     student=request.user.teacherprofile.level.studentprofile_set.get(id=pk)
-    
+        
     # print(student)
     formset=ResultFormSet(request.POST or None,instance=student)
     if request.method=='POST':
@@ -152,11 +149,17 @@ def Create_result_page(request,pk):
     ResultFormset=inlineformset_factory(StudentProfile,Result,fields=('course','term','first_test','second_test','exam'),extra=5)
 
     student=StudentProfile.objects.get(id=pk)
+
     formset=ResultFormset(request.POST or None, instance=student,queryset=Result.objects.none())
     if request.method=='POST':
         if formset.is_valid():
-            formset.save()
-            return HttpResponseRedirect(reverse('result_page'))
+            forms=formset.save(commit=False)
+            for form in forms:
+                form.level=student.level
+                form.save()
+            
+
+            return HttpResponseRedirect(reverse('result_page', args=[pk]))
     formset=ResultFormset()
     context={'formset':formset,'student':student}
     return render(request,'skool/createresult.html',context)
@@ -169,18 +172,32 @@ def Teacher_Result_Page(request,pk):
     # courses=student.course.all()
     student=StudentProfile.objects.get(id=pk)
     courses=student.level.courses_set.all()
-    result=student.result_set.all()
+    results=student.result_set.all().order_by('-id')
+    total_score=''
+    grade=''
+    review=''
+    for result in results:
+        total_score=result.total_score()
+        grade=result.student_grade()
+        review=result.student_review()
+
     print("THE COURSE IS :",courses)
     # print(result)
-    context={'student':student,'result':result,'courses':courses}
+    context={'student':student,'results':results,
+    'courses':courses,'total_score':total_score,
+    'grade':grade, 'review':review
+    
+    }
     return render(request,'skool/teacher_result.html',context)
 
 
 def Student_Page(request):
     students=StudentProfile.objects.get(user=request.user)
+    result=students.result_set.all()
     # students=request.user.studentprofile
-    filter=ResultFilter()
-    context={'students':students,'filter':filter}
+    filter=ResultFilter(request.GET,queryset=result)
+    results=filter.qs
+    context={'students':students,'filter':filter,'results':results}
     return render(request,'skool/studentpage.html',context)
 
 
