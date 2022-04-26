@@ -3,14 +3,109 @@
 
 {% block content%}
 
-<div class="maindiv">
-   
-    <h1>{{student.user}}-Result detail</h1>
+
+<div class="dashboard">
     
+    <section class="dash_menu">
+        <div>
+            <p><img src="{%static 'media/logo2.png' %}" alt=""><span>cademyco</span> </p>
+        </div>
+        <ul>
+            <li class="dash_menu-li" onmouseover="changecolor(this)"><a href=""><img src="{%static 'media/dashboard.png' %}" alt=""><span>dashboard</span> </a></li>
+            <li class="dash_menu-li"  onmouseover="changecolor(this)"  ><a href=""><img src="{%static 'media/payment.png' %}" alt=""><span>payments</span> </a></li>
+            <li class="dash_menu-li"  onmouseover="changecolor(this)" ><a href=""><img src="{%static 'media/event.png' %}" alt=""><span>events</span>  </a></li>
+            <!-- <li class="dash_menu-li" onmouseover="changecolor(this)"  ><a href=""><img src="{%static 'media/dashboard.png' %}" alt=""> teachers</a></li> -->
+            <li class="dash_menu-li" onmouseover="changecolor(this)" ><a href=""><img src="{%static 'media/setting.png' %}" alt=""><span>settings</span> </a></li>
+            <li class="dash_menu-li"  onmouseover="changecolor(this)"><a href=""><img src="{%static 'media/chat.png' %}" alt=""><span>chat</span> </a></li>
+            <li class="dash_menu-li"  onmouseover="changecolor(this)"><a href=""><img src="{%static 'media/logout.png' %}" alt=""><span>logout</span> </a></li>
+        </ul>
+    </section>
+
+<div class="dash_main">    
+<!-- MAIN DASHBOARD PAGE -->
+
+{% include 'maindash.html' with object=students %}
+
+        <section class="second_section">
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Student</th>
+                        <th>Course</th>
+                        <th>Term</th>
+                        <th>First Test</th>
+                        <th>Second Test</th>
+                        <th>Level</th>
+                        <th>Grade</th>
+                        <th>Review</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    {% for result in results %}
+                    <tr>
+                        <td>{{result.studentprofile}}</td>
+                        <td>{{result.course}}</td>
+                        <td>{{result.term}}</td>
+                        <td>{{result.first_test}}</td>
+                        <td>{{result.second_test}}</td>
+                        <td>{{result.level}}</td>
+                        <td>{{result.student_grade}}</td>
+                        <td>{{result.student_review}}</td>
+                        <td><a href="{%url 'update_result_page' student.id %}">Update </a></td>
+                           
+                    </tr>
+                    {% endfor %}
+                    </tr>
+
+                </tbody>
+
+            </table>
+           
+        </section>
+       <a href="{%url 'create_result_page' student.id %}"> <button class="btn btn-secondary btn-sm w-100">Upload result</button></a>
+    </div>
+
+
+
+</div>
+
+
+{% endblock %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="maindiv">
+    {% include 'navbar.html' %}
+    <h1>{{student.name}}-Result detail</h1>
+    <div class="firstdeck">
 
         {% include 'maindash.html' with object=student %}
 
-        <!-- <div class="seconddeck">
+        <div class="seconddeck">
             <div class="batchone">
                 <h2>NUMBER OF....</h2>
             </div>
@@ -20,7 +115,7 @@
             </div>
         </div>
     </div>
-<br><hr> -->
+<br><hr>
 
 <table>
     <thead>
@@ -53,4 +148,4 @@
 </div>
 
 
-{% endblock %}
+

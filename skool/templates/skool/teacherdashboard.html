@@ -13,18 +13,17 @@
                 </div>
 
                 <ul>
-                    <li class="dash_menu-li" onmouseover="changecolor(this)"><a href=""><span class="material-symbols-outlined">
-</span>dashboard</a></li>
-                    <li class="dash_menu-li"  onmouseover="changecolor(this)"  ><a href="">payments</a></li>
-                    <li class="dash_menu-li"  onmouseover="changecolor(this)" ><a href="">events </a></li>
-                    <li class="dash_menu-li" onmouseover="changecolor(this)"  ><a href="">teachers</a></li>
-                    <li class="dash_menu-li" onmouseover="changecolor(this)" ><a href="">settings</a></li>
-                    <li class="dash_menu-li"  onmouseover="changecolor(this)"><a href="">chat</a></li>
-                    <li class="dash_menu-li"  onmouseover="changecolor(this)"><a href="">logout</a></li>
+                    <li class="dash_menu-li" onmouseover="changecolor(this)"><a href=""><img src="{%static 'media/dashboard.png' %}" alt=""><span>dashboard</span> </a></li>
+                    <li class="dash_menu-li"  onmouseover="changecolor(this)"  ><a href=""><img src="{%static 'media/payment.png' %}" alt=""><span>payments</span> </a></li>
+                    <li class="dash_menu-li"  onmouseover="changecolor(this)" ><a href=""><img src="{%static 'media/event.png' %}" alt=""><span>events</span>  </a></li>
+                    <!-- <li class="dash_menu-li" onmouseover="changecolor(this)"  ><a href=""><img src="{%static 'media/dashboard.png' %}" alt=""> teachers</a></li> -->
+                    <li class="dash_menu-li" onmouseover="changecolor(this)" ><a href=""><img src="{%static 'media/setting.png' %}" alt=""><span>settings</span> </a></li>
+                    <li class="dash_menu-li"  onmouseover="changecolor(this)"><a href=""><img src="{%static 'media/chat.png' %}" alt=""><span>chat</span> </a></li>
+                    <li class="dash_menu-li"  onmouseover="changecolor(this)"><a href=""><img src="{%static 'media/logout.png' %}" alt=""><span>logout</span> </a></li>
                 </ul>
             </section>
 
-                
+        <div class="dash_main">    
 <!-- MAIN DASHBOARD PAGE -->
 
         {% include 'maindash.html' with object=students %}
@@ -68,7 +67,7 @@
                     </table>
                    
                 </section>
-                <button class="btn btn-secondary btn-sm">Upload result</button>
+                <!-- <button class="btn btn-secondary btn-sm">Upload result</button> -->
             </div>
 
 
@@ -94,4 +93,3 @@
     }
     
 </script> -->
- 
