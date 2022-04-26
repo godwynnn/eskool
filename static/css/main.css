@@ -588,7 +588,7 @@ footer{
     color: white;
 }
 .dash_menu ul{
-    line-height: 50px;
+    line-height: 80px;
     width: 100%;
     padding-left: 20%;
     padding-right: 0;
@@ -691,11 +691,19 @@ table{
     overflow: scroll;
     margin-top: 4%;
 }
+thead th{
+    padding-left: 3%;
+    /* border: 1px solid red; */
+}
 tbody tr {
     /* line-height: 20px; */
     height: 10vh;
     /* border: 1px solid red; */
     /* padding: 1% 2%; */
+}
+tbody tr td{
+    /* border : 1px solid red; */
+    padding-left: 3%;
 }
 #id_level,#id_course,#id_term{
     width: 90%;
@@ -739,8 +747,29 @@ tbody tr {
 }
 .form-group{
     display: inline-block;
-    width: 10%;
+    width: 12%;
 }
+.form-control{
+
+}
+.maindiv {
+    width: 80%;
+    margin: 0;
+    padding: 0;
+}
+.maindiv table{
+    width: 100%;
+}
+
+/* .material-symbols-outlined {
+  font-variation-settings:
+  'FILL' 1,
+  'wght' 400,
+  'GRAD' 0,
+  'opsz' 40
+} */
+
+
 @media screen and (max-width:1247px){
     .menu{
         width: 80%;
@@ -783,6 +812,24 @@ tbody tr {
     }
     table{
         width: 125%;
+    }
+}
+@media screen and (max-width:1090px){
+    .result_form{
+        display: flex;
+        flex-direction: column;
+    }
+    .form-group{
+        width: 80%;
+    }
+    .logo p span{
+        display: none;
+    }
+    .logo p img{
+        width: 40%;
+    }
+    .dash_menu ul li a{
+        font-size: 15px;
     }
 }
 
@@ -1004,6 +1051,11 @@ table{
 .dash_menu div p{
     font-size: larger;
 }
+.dash_menu ul li a span{
+    /* font-size: 15px; */
+    display: none;
+}
+
 
 }
 
