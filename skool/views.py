@@ -12,25 +12,71 @@ from django.contrib.auth.decorators import login_required
 from .decorators import *
 from django.urls import reverse
 from django.http import HttpResponseRedirect
-from django.core.mail import send_mail
+from django.core.mail import send_mail,EmailMessage
 from .filters import ResultFilter
+from django.contrib.sites.shortcuts import get_current_site
+from django.utils.encoding import force_bytes, force_text
+from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
+from django.template.loader import render_to_string
+from .tokens import account_activation_token
+from django.contrib.auth.models import User
+from django.http import JsonResponse
+
+from django.core.exceptions import ObjectDoesNotExist
 # Create your views here.
 
 @landingdecorator
 def Landing_Page(request):
     obj=NewsFeed.objects.all()[:3]
     template='skool/index.html'
+    print('LIST OF MESSAGES: ',messages)
     context={'objects':obj}
     return render(request,template,context)
 
 
+
+def Member_page(request):
+    template= 'skool/auth.html'
+    return render(request,template)
+
 def Register_page(request):
-    form=CreateUserForm(request.POST or None)
+    print('BODY: ', request.body)
+    print('POST: ', request.POST)
+    obj=User()
+    output={}
     if request.method=='POST':
-        if form.is_valid():
-            email=form.cleaned_data['email']
-            user=form.save()
+        first_name=request.POST['first_name']
+        last_name=request.POST['last_name']
+        username=request.POST['username']
+        email=request.POST['email']
+        password1=request.POST['password1'].value()
+        password2=request.POST['password2'].value()
+
+        
+        try:
+            if User.objects.filter(username=username).exists():
+                output['response']='Username already exists'
+                
+            elif User.objects.filter(password1=password1).exists():
+                output['response']='Password is common'
             
+            elif User.objects.filter(email=email).exists():
+                output['response']='Email has already been used'
+            elif password1 != password2:
+                output['response']='Password don\'t match'
+            
+            
+        except ObjectDoesNotExist:
+            obj.first_name=first_name
+            obj.last_name=last_name
+            obj.username=username
+            obj.email=email
+            obj.set_password(password1)
+            user=obj.save(commit=False)
+            user.is_active=False
+            user.save()
+            output['response']='user successfully created'
+
             group=None
             if request.POST.get('position')=='teacher':
                 group=Group.objects.get(name='teachers')
@@ -42,15 +88,43 @@ def Register_page(request):
                 user.groups.add(group)
                 StudentProfile.objects.create(user=user,email=email)
 
-
-            username=form.cleaned_data['username']
+            current_site = get_current_site(request)
+            mail_subject = 'Activate your Academy.co account.'
+            message = render_to_string('acc_active_email.html', {
+                'user': user,
+                'domain': current_site.domain,
+                'uid':urlsafe_base64_encode(force_bytes(user.pk)),
+                'token':account_activation_token.make_token(user),
+            })
+            # to_email = form.cleaned_data.get('email')
+            email = EmailMessage(
+                        mail_subject, message, to=[email]
+            )
+            email.send()
+            
             messages.success(request,'you have successfully created an account for, '+ username)
-            form=CreateUserForm()
-            return redirect('login_page')
-    context={'form': form}
-    template= 'skool/signup.html'
-    return render(request,template,context)
 
+            return HttpResponse('Please confirm your email address to complete the registration')
+        # return redirect('login_page')
+    
+    return JsonResponse(output)
+    
+
+
+def activate(request, uidb64, token):
+    try:
+        uid = force_text(urlsafe_base64_decode(uidb64))
+        user = User.objects.get(pk=uid)
+    except(TypeError, ValueError, OverflowError, User.DoesNotExist):
+        user = None
+    if user is not None and account_activation_token.check_token(user, token):
+        user.is_active = True
+        user.save()
+        login(request, user)
+        # return redirect('home')
+        return HttpResponse('Thank you for your email confirmation. Now you can login your account.')
+    else:
+        return HttpResponse('Activation link is invalid!')
 
 
 def Login_page(request):
@@ -64,8 +138,8 @@ def Login_page(request):
     
         else:
             messages.info(request,'Incorrect username Or password')
-    template= 'skool/login.html'
-    return render(request,template)
+    # template= 'skool/auth.html'
+    return render(request)
 
 
 def logout_page(request): 
