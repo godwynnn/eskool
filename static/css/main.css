@@ -769,6 +769,118 @@ tbody tr td{
   'opsz' 40
 } */
 
+/* AUTHENTICATION FORM */
+.auth_form_body{
+    width: 100%;
+    min-height: 110vh;
+    background: url(../media/bg.jpg);
+    background-position: center;
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+    background-size: cover;
+    display:  flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.form_box{
+    background-color: rgb(226, 226, 226);
+    width: 25%;
+    min-height: 70vh;
+    padding: 2% 5%;
+    position: relative;
+    border-radius: 10px;
+    opacity: 90%;
+    overflow: hidden;
+    /* border: 1px solid red; */
+    
+    
+    /* line-height: 50px; */
+    
+
+}
+.auth_form{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+   
+    
+}
+.button_box{
+    width: 100%;
+    min-height: 5vh;
+    /* border: 1px solid red; */
+    border-radius: 20px;
+    display: flex;
+    justify-content: space-between;
+    box-shadow: 1px 1px 2px 0px rgb(70, 69, 69);
+    position: relative;
+}
+.button_box button{
+    width:50%;
+    border-radius: 50px;
+    min-height: 5vh;
+    background-color: transparent;
+    border: none;
+    position: relative;
+    transition: 1s ease;
+    
+   
+}
+.button_box,.auth_form{
+    margin-top: 20px;
+}
+.auth_input{
+    margin-top: 8px;
+    width: 100%;
+    min-height: 5vh;
+    border-radius: 10px;
+    padding-left: 4%;
+    padding-right: 4%;
+    border: none;
+    border-bottom: 1px solid gray;
+
+}
+#btn_form{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 50%;
+    height: 5vh;
+    border-radius: 20px;
+    background-color: darkgray;
+    
+    
+}
+.auth_form{
+    position: absolute;
+    top: 30%;
+    left: 0;
+    transition:  0.8s ease;
+}
+.auth_form button{
+    margin-top: 5%;
+}
+.auth_form label{
+    width: 70%;
+    /* border: 1px solid red; */
+    min-height: 5vh;
+}
+#login{
+    left: 0;
+}
+#register{
+    left: 100%;
+}
+.auth_register{
+    top: 20%;
+}
+.auth_register button{
+    display: none;
+    transition: 2s ease;
+}
 
 @media screen and (max-width:1247px){
     .menu{
