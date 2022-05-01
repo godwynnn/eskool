@@ -1,0 +1,46 @@
+{% extends 'base.html'%}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block content%}
+<div class="result_dashboard">
+
+    <section class="dash_menu">
+        <div>
+            <p><img src="{%static 'media/logo2.png' %}" alt=""><span>cademyco</span> </p>
+        </div>
+        <ul>
+            <li class="dash_menu-li" onmouseover="changecolor(this)"><a href=""><img src="{%static 'media/dashboard.png' %}" alt=""><span>dashboard</span> </a></li>
+            <li class="dash_menu-li"  onmouseover="changecolor(this)"  ><a href=""><img src="{%static 'media/payment.png' %}" alt=""><span>payments</span> </a></li>
+            <li class="dash_menu-li"  onmouseover="changecolor(this)" ><a href=""><img src="{%static 'media/event.png' %}" alt=""><span>events</span>  </a></li>
+            <!-- <li class="dash_menu-li" onmouseover="changecolor(this)"  ><a href=""><img src="{%static 'media/dashboard.png' %}" alt=""> teachers</a></li> -->
+            <li class="dash_menu-li" onmouseover="changecolor(this)" ><a href=""><img src="{%static 'media/setting.png' %}" alt=""><span>settings</span> </a></li>
+            <li class="dash_menu-li"  onmouseover="changecolor(this)"><a href=""><img src="{%static 'media/chat.png' %}" alt=""><span>chat</span> </a></li>
+            <li class="dash_menu-li"  onmouseover="changecolor(this)"><a href=""><img src="{%static 'media/logout.png' %}" alt=""><span>logout</span> </a></li>
+        </ul>
+    </section>
+
+        
+
+         <div class="create_result-section" >
+
+            <form action="" method="POST">{% csrf_token %}
+                {{formset.management_form}}
+               {% for form in formset %} 
+               <div class="result_form">
+                {{form|crispy}}  
+               </div><br><br><hr>
+              
+                {% endfor %}
+               <button type="submit" class="btn btn-success btn-md">Submit</button>
+            </form>
+           
+        </div>
+        
+    </div>
+
+
+
+</div>
+
+{%endblock %}

@@ -1,3 +1,4 @@
+from multiprocessing import context
 from django.shortcuts import render,redirect,get_object_or_404
 from .models import *
 from .forms import *
@@ -11,25 +12,71 @@ from django.contrib.auth.decorators import login_required
 from .decorators import *
 from django.urls import reverse
 from django.http import HttpResponseRedirect
-from django.core.mail import send_mail
+from django.core.mail import send_mail,EmailMessage
 from .filters import ResultFilter
+from django.contrib.sites.shortcuts import get_current_site
+from django.utils.encoding import force_bytes, force_text
+from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
+from django.template.loader import render_to_string
+from .tokens import account_activation_token
+from django.contrib.auth.models import User
+from django.http import JsonResponse
+
+from django.core.exceptions import ObjectDoesNotExist
 # Create your views here.
 
 @landingdecorator
 def Landing_Page(request):
     obj=NewsFeed.objects.all()[:3]
     template='skool/index.html'
+    print('LIST OF MESSAGES: ',messages)
     context={'objects':obj}
     return render(request,template,context)
 
 
+
+def Member_page(request):
+    template= 'skool/auth.html'
+    return render(request,template)
+
 def Register_page(request):
-    form=CreateUserForm(request.POST or None)
+    print('BODY: ', request.body)
+    print('POST: ', request.POST)
+    obj=User()
+    output={}
     if request.method=='POST':
-        if form.is_valid():
-            email=form.cleaned_data['email']
-            user=form.save()
+        first_name=request.POST['first_name']
+        last_name=request.POST['last_name']
+        username=request.POST['username']
+        email=request.POST['email']
+        password1=request.POST['password1'].value()
+        password2=request.POST['password2'].value()
+
+        
+        try:
+            if User.objects.filter(username=username).exists():
+                output['response']='Username already exists'
+                
+            elif User.objects.filter(password1=password1).exists():
+                output['response']='Password is common'
             
+            elif User.objects.filter(email=email).exists():
+                output['response']='Email has already been used'
+            elif password1 != password2:
+                output['response']='Password don\'t match'
+            
+            
+        except ObjectDoesNotExist:
+            obj.first_name=first_name
+            obj.last_name=last_name
+            obj.username=username
+            obj.email=email
+            obj.set_password(password1)
+            user=obj.save(commit=False)
+            user.is_active=False
+            user.save()
+            output['response']='user successfully created'
+
             group=None
             if request.POST.get('position')=='teacher':
                 group=Group.objects.get(name='teachers')
@@ -41,15 +88,43 @@ def Register_page(request):
                 user.groups.add(group)
                 StudentProfile.objects.create(user=user,email=email)
 
-
-            username=form.cleaned_data['username']
+            current_site = get_current_site(request)
+            mail_subject = 'Activate your Academy.co account.'
+            message = render_to_string('acc_active_email.html', {
+                'user': user,
+                'domain': current_site.domain,
+                'uid':urlsafe_base64_encode(force_bytes(user.pk)),
+                'token':account_activation_token.make_token(user),
+            })
+            # to_email = form.cleaned_data.get('email')
+            email = EmailMessage(
+                        mail_subject, message, to=[email]
+            )
+            email.send()
+            
             messages.success(request,'you have successfully created an account for, '+ username)
-            form=CreateUserForm()
-            return redirect('login_page')
-    context={'form': form}
-    template= 'skool/signup.html'
-    return render(request,template,context)
 
+            return HttpResponse('Please confirm your email address to complete the registration')
+        # return redirect('login_page')
+    
+    return JsonResponse(output)
+    
+
+
+def activate(request, uidb64, token):
+    try:
+        uid = force_text(urlsafe_base64_decode(uidb64))
+        user = User.objects.get(pk=uid)
+    except(TypeError, ValueError, OverflowError, User.DoesNotExist):
+        user = None
+    if user is not None and account_activation_token.check_token(user, token):
+        user.is_active = True
+        user.save()
+        login(request, user)
+        # return redirect('home')
+        return HttpResponse('Thank you for your email confirmation. Now you can login your account.')
+    else:
+        return HttpResponse('Activation link is invalid!')
 
 
 def Login_page(request):
@@ -63,8 +138,8 @@ def Login_page(request):
     
         else:
             messages.info(request,'Incorrect username Or password')
-    template= 'skool/login.html'
-    return render(request,template)
+    # template= 'skool/auth.html'
+    return render(request)
 
 
 def logout_page(request): 
@@ -92,7 +167,7 @@ def Teacher_page(request):
     teacher=request.user.teacherprofile
     course=teacher.courses_set.all()
     level=teacher.level
-    
+    print('BODY OUTPUT :', request.body)
     context={'student_list': student,
      'object':teacher,
      'courses':course,
@@ -126,16 +201,12 @@ def Student_profile_page(request,pk):
     context={'form':form}
     return render(request,'skool/student_create_page.html', context)
 
-
-
 def Update_result_page(request,pk):
-    
     ResultFormSet=inlineformset_factory(StudentProfile,Result, 
-    fields=('level','course','term','first_test','second_test','exam','grade','review'), extra=10
-    )
-    
+    fields=('level','course','term','first_test','second_test','exam'), extra=5)
+        
     student=request.user.teacherprofile.level.studentprofile_set.get(id=pk)
-    
+        
     # print(student)
     formset=ResultFormSet(request.POST or None,instance=student)
     if request.method=='POST':
@@ -144,10 +215,29 @@ def Update_result_page(request,pk):
             return HttpResponseRedirect(reverse('result_page', args=[pk]))
         formset=ResultFormSet()
     context={'formset': formset}
+    return render(request,'skool/updateresult.html',context)
+
+
+
+def Create_result_page(request,pk):
+    ResultFormset=inlineformset_factory(StudentProfile,Result,fields=('course','term','first_test','second_test','exam'),extra=5)
+
+    student=StudentProfile.objects.get(id=pk)
+
+    formset=ResultFormset(request.POST or None, instance=student,queryset=Result.objects.none())
+    if request.method=='POST':
+        if formset.is_valid():
+            forms=formset.save(commit=False)
+            for form in forms:
+                form.level=student.level
+                form.save()
+            
+
+            return HttpResponseRedirect(reverse('result_page', args=[pk]))
+    formset=ResultFormset()
+    context={'formset':formset,'student':student}
     return render(request,'skool/createresult.html',context)
 
-def Create_result_page(request):
-    pass
 
 
 def Teacher_Result_Page(request,pk):
@@ -156,18 +246,32 @@ def Teacher_Result_Page(request,pk):
     # courses=student.course.all()
     student=StudentProfile.objects.get(id=pk)
     courses=student.level.courses_set.all()
-    result=student.result_set.all()
+    results=student.result_set.all().order_by('-id')
+    total_score=''
+    grade=''
+    review=''
+    for result in results:
+        total_score=result.total_score()
+        grade=result.student_grade()
+        review=result.student_review()
+
     print("THE COURSE IS :",courses)
     # print(result)
-    context={'student':student,'result':result,'courses':courses}
+    context={'student':student,'results':results,
+    'courses':courses,'total_score':total_score,
+    'grade':grade, 'review':review
+    
+    }
     return render(request,'skool/teacher_result.html',context)
 
 
 def Student_Page(request):
     students=StudentProfile.objects.get(user=request.user)
+    result=students.result_set.all()
     # students=request.user.studentprofile
-    filter=ResultFilter()
-    context={'students':students,'filter':filter}
+    filter=ResultFilter(request.GET,queryset=result)
+    results=filter.qs
+    context={'students':students,'filter':filter,'results':results}
     return render(request,'skool/studentpage.html',context)
 
 
