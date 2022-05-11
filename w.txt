@@ -1,0 +1,65 @@
+
+
+<!-- 
+
+
+e.preventDefault()
+if(password1.value =='' && password2.value==''){
+  console.log('field cannot be empty')
+  
+}
+else if(password1.value != password2.value){
+  console.log('password dont match')
+}
+else{
+  console.log('successfully signed up')
+  
+  // console.log(value)
+} -->
+
+
+
+
+
+
+  <!-- <em>Signup as</em>
+          <input type="radio" name="position" value="teacher" id="teacher"><label for="teacher">Teacher</label>
+          <input type="radio" name="position" value="student" id="student"><label for="student">Student</label><br><br> -->
+
+
+
+
+
+
+
+
+
+
+
+<!-- <label for="">
+  {{form.first_name}}
+</label>
+
+
+<label for="">
+  {{form.last_name}}
+</label>
+
+<label for="">
+  {{form.username}}
+</label>
+
+
+<label for="">
+  {{form.email}}
+</label>
+
+
+<label for="">
+  {{form.password1}}
+</label>
+
+
+<label for="">
+  {{form.password2}}
+</label> -->

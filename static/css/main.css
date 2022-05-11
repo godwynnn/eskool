@@ -785,7 +785,7 @@ tbody tr td{
 }
 .form_box{
     background-color: rgb(226, 226, 226);
-    width: 25%;
+    width: 30%;
     min-height: 70vh;
     padding: 2% 5%;
     position: relative;
@@ -881,6 +881,23 @@ tbody tr td{
     display: none;
     transition: 2s ease;
 }
+.position{
+    display: flex;
+}
+.auth_form_body ul{
+    /* border: 1px solid red; */
+    min-height: 3vh;
+    width: 100%;
+    padding: 0;
+    
+}
+.auth_form_body ul li{
+    font-size: 15px;
+
+}
+#auth_message{
+    display: none;
+}
 
 @media screen and (max-width:1247px){
     .menu{
@@ -904,10 +921,13 @@ tbody tr td{
         display: flex;
         padding: 1% 0%;
     }
+    .form_box{
+        width: 40%;
+    }
     
 }
 
-@media screen and (max-width:1000px){
+@media screen and (max-width:1090px){
 
     .menu{
         width: 75%;
@@ -925,8 +945,11 @@ tbody tr td{
     table{
         width: 125%;
     }
+    .form_box{
+        width: 45%;
+    }
 }
-@media screen and (max-width:1090px){
+@media screen and (max-width:1000px){
     .result_form{
         display: flex;
         flex-direction: column;
@@ -942,6 +965,9 @@ tbody tr td{
     }
     .dash_menu ul li a{
         font-size: 15px;
+    }
+    .form_box{
+        width: 50%;
     }
 }
 
@@ -971,6 +997,9 @@ tbody tr td{
     }
     .logo{
         padding: 2% 0%;
+    }
+    .form_box{
+        width: 55%;
     }
 
 }
@@ -1222,6 +1251,9 @@ table{
     table{
         width: 180%;
     }
+    .form_box{
+        width: 65%;
+    }
     
 }
 @media screen and (max-width:600px){
@@ -1229,7 +1261,9 @@ table{
         font-size: 12px;
         /* border: 1px solid red; */
     }
-    
+    .form_box{
+        width: 80%;
+    }
 }
 @media screen and (max-width:550px){
     .header{
@@ -1277,6 +1311,9 @@ table{
     }
     #id_level,#id_course,#id_term{
         width: 100%;
+    }
+    .form_box{
+        width: 90%;
     }
 
 }

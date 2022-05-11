@@ -24,6 +24,8 @@ urlpatterns = [
     path('eskool-signup/', Register_page, name='register_page'),
     path('eskool/log-in/', Login_page, name='login_page'),
     path('eskool/log-out',logout_page, name='logout_page'),
+    path('eskool/member/',Member_page, name='member_page'),
+
     path('eskool/create-post/', CreatePost, name='create_post'),
     path('eskool/',Landing_Page, name='landing_page'),
     path('eskool/create-teacher-profile/',Teacher_Create_Page,name='teacher_create'),

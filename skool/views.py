@@ -1,3 +1,5 @@
+import dataclasses
+import json
 from multiprocessing import context
 from django.shortcuts import render,redirect,get_object_or_404
 from .models import *
@@ -21,8 +23,9 @@ from django.template.loader import render_to_string
 from .tokens import account_activation_token
 from django.contrib.auth.models import User
 from django.http import JsonResponse
-
+import re
 from django.core.exceptions import ObjectDoesNotExist
+import string
 # Create your views here.
 
 @landingdecorator
@@ -40,73 +43,94 @@ def Member_page(request):
     return render(request,template)
 
 def Register_page(request):
-    print('BODY: ', request.body)
-    print('POST: ', request.POST)
-    obj=User()
+    # print('BODY: ', request.body)
+    # print('POST: ', request.POST)
+    # print('REQUEST IS AJAX: ',request.is_ajax())
+    user=User()
     output={}
-    if request.method=='POST':
-        first_name=request.POST['first_name']
-        last_name=request.POST['last_name']
-        username=request.POST['username']
-        email=request.POST['email']
-        password1=request.POST['password1'].value()
-        password2=request.POST['password2'].value()
+    
+    if request.is_ajax():
+        data=json.loads(request.body)
+        # print('BODY INSIDE AJAX: ',data)
+        if request.method=='POST':
+            first_name=data['first_name']
+            last_name=data['last_name']
+            username=data['username']
+            email=data['email']
+            password1=data['password1']
+            password2=data['password2']
 
-        
-        try:
+            group=Group.objects.get(name='students')
+           
+            values=[string.ascii_letters,string.digits]
+
             if User.objects.filter(username=username).exists():
                 output['response']='Username already exists'
-                
-            elif User.objects.filter(password1=password1).exists():
-                output['response']='Password is common'
+                output['valid']=False
+
             
+            if not password1 in string.ascii_lowercase:
+                if not password1 in string.digits:
+                 output['response']='Password must contain alphanumeric characters'
+                 output['valid']=False    
+
+
             elif User.objects.filter(email=email).exists():
                 output['response']='Email has already been used'
+                output['valid']=False
+
             elif password1 != password2:
                 output['response']='Password don\'t match'
+                output['valid']=False
             
-            
-        except ObjectDoesNotExist:
-            obj.first_name=first_name
-            obj.last_name=last_name
-            obj.username=username
-            obj.email=email
-            obj.set_password(password1)
-            user=obj.save(commit=False)
-            user.is_active=False
-            user.save()
-            output['response']='user successfully created'
-
-            group=None
-            if request.POST.get('position')=='teacher':
-                group=Group.objects.get(name='teachers')
+                    
+            else:
+                user.first_name=first_name
+                user.last_name=last_name
+                user.username=username
+                user.email=email
+                user.set_password(password1)
+                user.is_active=False
+                
+                user.save()
                 user.groups.add(group)
-                TeacherProfile.objects.create(user=user,email=email)
+                StudentProfile.objects.create(user=user)
+                output['response']='user successfully created confirm via mail'
+                output['valid']=True
 
-            if request.POST.get('position')=='student':
-                group=Group.objects.get(name='students')
-                user.groups.add(group)
-                StudentProfile.objects.create(user=user,email=email)
+                
+               
 
-            current_site = get_current_site(request)
-            mail_subject = 'Activate your Academy.co account.'
-            message = render_to_string('acc_active_email.html', {
-                'user': user,
-                'domain': current_site.domain,
-                'uid':urlsafe_base64_encode(force_bytes(user.pk)),
-                'token':account_activation_token.make_token(user),
-            })
-            # to_email = form.cleaned_data.get('email')
-            email = EmailMessage(
-                        mail_subject, message, to=[email]
-            )
-            email.send()
-            
-            messages.success(request,'you have successfully created an account for, '+ username)
+                # group=None
+                # if request.POST.get('position')=='teacher':
+                #     group=Group.objects.get(name='teachers')
+                #     user.groups.add(group)
+                #     TeacherProfile.objects.create(user=user,email=email)
 
-            return HttpResponse('Please confirm your email address to complete the registration')
-        # return redirect('login_page')
-    
+                # if request.POST.get('position')=='student':
+                #     group=Group.objects.get(name='students')
+                #     user.groups.add(group)
+                #     StudentProfile.objects.create(user=user,email=email)
+
+                current_site = get_current_site(request)
+                mail_subject = 'Activate your Academy.co account.'
+                message = render_to_string('skool/acc_active_email.html', {
+                    'user': user,
+                    'domain': current_site.domain,
+                    'uid':urlsafe_base64_encode(force_bytes(user.pk)),
+                    'token':account_activation_token.make_token(user),
+                })
+                # to_email = form.cleaned_data.get('email')
+                email = EmailMessage(
+                            mail_subject, message, to=[email]
+                )
+                email.send()
+                
+                
+                
+                # return redirect('member_page')
+            # return redirect('login_page')
+        
     return JsonResponse(output)
     
 

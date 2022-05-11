@@ -27,7 +27,7 @@ class TeacherProfile(models.Model):
         ordering=['-date_added']
 
     def __str__(self):
-        return f'{self.user.username}|{self.id_no}'
+        return f'{self.user}|{self.id_no}'
 
 
 
@@ -83,8 +83,8 @@ class Result(models.Model):
     second_test=models.PositiveIntegerField(null=True,blank=True)
     exam=models.PositiveIntegerField(null=True,blank=True)
     course=models.ForeignKey(Courses,null=True,on_delete=models.CASCADE)
-    grade=models.CharField(max_length=200,null=True,choices=Grade)
-    review=models.CharField(max_length=200,null=True,choices=Review)
+    # grade=models.CharField(max_length=200,null=True,choices=Grade)
+    # review=models.CharField(max_length=200,null=True,choices=Review)
     date_added=models.DateField(auto_now_add=True)
 
     class Meta:
@@ -95,9 +95,60 @@ class Result(models.Model):
     
     def total_score(self):
         return self.first_test + self.second_test + self.exam
+    
+    def student_grade(self):
+        grade= ''
+        score=self.total_score()
 
+        
+        if 85<= score <= 100:
+            grade = 'A'
 
+        elif 70 <= score <85:
+            grade ='B'
 
+        elif 55<= score <70:
+            grade ='C'
+
+        elif 40 <= score <55:
+            grade ='D'
+
+        elif 30<=score <40:
+            grade= 'E'
+
+        elif score < 30:
+            grade = 'F'
+        else:
+            print('you did not write this course')
+
+        return grade   
+
+    def student_review(self):
+        review=''
+
+        if self.student_grade()== 'A':
+            review ='Excellent'
+
+        elif self.student_grade()== 'B':
+            review ='Good'
+
+        elif self.student_grade()== 'C':
+            review ='Satisfactory'
+
+        elif self.student_grade()== 'D':
+            review ='Average'
+
+        elif self.student_grade()== 'E':
+            review ='Poor'
+
+        elif self.student_grade()== 'F':
+            review ='Fail'
+
+        else:
+            print('you did not write this course')
+
+        return review
+        
 class Tag(models.Model):
     name=models.CharField(max_length=300, null=True, blank=True)
 
