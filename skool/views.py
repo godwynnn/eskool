@@ -17,15 +17,16 @@ from django.http import HttpResponseRedirect
 from django.core.mail import send_mail,EmailMessage
 from .filters import ResultFilter
 from django.contrib.sites.shortcuts import get_current_site
-from django.utils.encoding import force_bytes, force_text
+from django.utils.encoding import force_bytes, force_str
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.template.loader import render_to_string
 from .tokens import account_activation_token
 from django.contrib.auth.models import User
+from django.contrib.auth.hashers import check_password
 from django.http import JsonResponse
 import re
-from django.core.exceptions import ObjectDoesNotExist
 import string
+from django.core.exceptions import ObjectDoesNotExist
 # Create your views here.
 
 @landingdecorator
@@ -62,27 +63,31 @@ def Register_page(request):
 
             group=Group.objects.get(name='students')
            
-            values=[string.ascii_letters,string.digits]
+            
+           
+            
+            
 
             if User.objects.filter(username=username).exists():
                 output['response']='Username already exists'
                 output['valid']=False
-
             
-            if not password1 in string.ascii_lowercase:
-                if not password1 in string.digits:
-                 output['response']='Password must contain alphanumeric characters'
-                 output['valid']=False    
-
-
-            elif User.objects.filter(email=email).exists():
+            elif User.objects.filter(email__iexact=email).exists():
                 output['response']='Email has already been used'
                 output['valid']=False
-
             elif password1 != password2:
                 output['response']='Password don\'t match'
                 output['valid']=False
+            elif not any(char.isdigit() for char in password1):
+                output['response']='Password must contain alphanumeric characters in small caps'
+                output['valid']=False 
+            elif not any(char.islower() for char in password1):
+                output['response']='Password must contain alphanumeric characters in small caps'
+                output['valid']=False     
             
+
+         
+        
                     
             else:
                 user.first_name=first_name
@@ -128,16 +133,14 @@ def Register_page(request):
                 
                 
                 
-                # return redirect('member_page')
-            # return redirect('login_page')
-        
+              
     return JsonResponse(output)
     
 
 
 def activate(request, uidb64, token):
     try:
-        uid = force_text(urlsafe_base64_decode(uidb64))
+        uid = force_str(urlsafe_base64_decode(uidb64))
         user = User.objects.get(pk=uid)
     except(TypeError, ValueError, OverflowError, User.DoesNotExist):
         user = None
@@ -150,20 +153,37 @@ def activate(request, uidb64, token):
     else:
         return HttpResponse('Activation link is invalid!')
 
-
+# @landingdecorator
 def Login_page(request):
-    if request.method=='POST':
-        username=request.POST['username']
-        password=request.POST['password']
-        user =authenticate(request,username=username,password=password)
-        if user is not None:
-            login(request, user)
-            return redirect('teacher_page')
-    
-        else:
-            messages.info(request,'Incorrect username Or password')
-    # template= 'skool/auth.html'
-    return render(request)
+    output={}
+    print('LOGIN DATA OUTSIDE AJAX CALL: ',request.body)
+    if request.is_ajax():
+        data=json.loads(request.body)
+        print('LOGIN DATA: ', data)
+
+        if request.method=='POST':
+            username=data['username']
+            password=data['password']
+            user =authenticate(request,username=username,password=password)
+            if user is not None:
+                
+                if user.is_active==False:
+                    output['response']='This account is not verified activate via Gmail '
+                    output['valid']=False
+                else:
+                    login(request, user)
+                    if user.groups.filter(name='teachers'):
+                        output['group']='teacher'
+                        output['response']='login sucessfull '
+                        output['valid']=True
+                    elif user.groups.filter(name='students'):
+                        output['group']='student'
+                        output['response']='login sucessfull '
+                        output['valid']=True        
+            else:
+                output['response']='incorrect Username or Password'
+        # template= 'skool/auth.html'
+    return JsonResponse(output)
 
 
 def logout_page(request): 
