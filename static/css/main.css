@@ -784,13 +784,13 @@ tbody tr td{
     align-items: center;
 }
 .form_box{
-    background-color: rgb(226, 226, 226);
+    background-color: rgb(22, 22, 22);
     width: 30%;
     min-height: 70vh;
     padding: 2% 5%;
     position: relative;
     border-radius: 10px;
-    opacity: 90%;
+    opacity: 80%;
     overflow: hidden;
     /* border: 1px solid red; */
     
@@ -808,6 +808,11 @@ tbody tr td{
    
     
 }
+.auth_form label{
+    /* border: 1px solid red; */
+    border: none;
+    border-bottom: 1px solid white;
+}
 .button_box{
     width: 100%;
     min-height: 5vh;
@@ -815,7 +820,7 @@ tbody tr td{
     border-radius: 20px;
     display: flex;
     justify-content: space-between;
-    box-shadow: 1px 1px 2px 0px rgb(70, 69, 69);
+    box-shadow: 2px 2px 3px 0px rgb(70, 69, 69);
     position: relative;
 }
 .button_box button{
@@ -825,6 +830,7 @@ tbody tr td{
     background-color: transparent;
     border: none;
     position: relative;
+    color: white;
     transition: 1s ease;
     
    
@@ -840,7 +846,9 @@ tbody tr td{
     padding-left: 4%;
     padding-right: 4%;
     border: none;
-    border-bottom: 1px solid gray;
+    color: white;
+    /* border-bottom: 1px solid gray; */
+    background: transparent;
 
 }
 #btn_form{
@@ -849,8 +857,10 @@ tbody tr td{
     left: 0;
     width: 50%;
     height: 5vh;
-    border-radius: 20px;
-    background-color: darkgray;
+    border-radius: 5px;
+    border-bottom:  1px solid white;
+    
+    /* background-color: darkgray; */
     
     
 }
@@ -897,6 +907,7 @@ tbody tr td{
 }
 #auth_message{
     display: none;
+    color: white;
 }
 
 @media screen and (max-width:1247px){
@@ -922,12 +933,34 @@ tbody tr td{
         padding: 1% 0%;
     }
     .form_box{
-        width: 40%;
+        width: 35%;
     }
     
 }
 
 @media screen and (max-width:1090px){
+    .result_form{
+        display: flex;
+        flex-direction: column;
+    }
+    .form-group{
+        width: 80%;
+    }
+    .logo p span{
+        display: none;
+    }
+    .logo p img{
+        width: 40%;
+    }
+    .dash_menu ul li a{
+        font-size: 15px;
+    }
+    .form_box{
+        width: 40%;
+    }
+}
+
+@media screen and (max-width:1000px){
 
     .menu{
         width: 75%;
@@ -947,27 +980,6 @@ tbody tr td{
     }
     .form_box{
         width: 45%;
-    }
-}
-@media screen and (max-width:1000px){
-    .result_form{
-        display: flex;
-        flex-direction: column;
-    }
-    .form-group{
-        width: 80%;
-    }
-    .logo p span{
-        display: none;
-    }
-    .logo p img{
-        width: 40%;
-    }
-    .dash_menu ul li a{
-        font-size: 15px;
-    }
-    .form_box{
-        width: 50%;
     }
 }
 
@@ -999,7 +1011,7 @@ tbody tr td{
         padding: 2% 0%;
     }
     .form_box{
-        width: 55%;
+        width: 50%;
     }
 
 }
@@ -1196,6 +1208,9 @@ table{
     /* font-size: 15px; */
     display: none;
 }
+.form_box{
+    width: 53%;
+}
 
 
 }
@@ -1252,7 +1267,7 @@ table{
         width: 180%;
     }
     .form_box{
-        width: 65%;
+        width: 58%;
     }
     
 }
@@ -1262,8 +1277,9 @@ table{
         /* border: 1px solid red; */
     }
     .form_box{
-        width: 80%;
+        width: 65%;
     }
+    
 }
 @media screen and (max-width:550px){
     .header{
@@ -1313,7 +1329,7 @@ table{
         width: 100%;
     }
     .form_box{
-        width: 90%;
+        width: 75%;
     }
 
 }
@@ -1357,6 +1373,9 @@ table{
         display: block;
         width: 40%;
     }
+    .form_box{
+        width: 85%;
+    }
 }
 @media screen and (max-width:385px){
     .header h1{
@@ -1367,5 +1386,8 @@ table{
     }
     table{
         width: 280%;
+    }
+    .form_box{
+        width: 90%;
     }
 }
