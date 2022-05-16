@@ -18,15 +18,15 @@
   </ul>
 
   
-      <form action="{%url 'login_page' %}" id="login" method="" class="auth_form ">
+      <form action="" id="login" method="POST" class="auth_form ">{%csrf_token%}
           <label for="uname">
               <input type="text" name="username" id="uname" class="auth_input" placeholder="Enter username">
-          </label> 
+          </label> <br>
           <label for="pw">
               <input type="password" name="password" id="pw" class="auth_input" placeholder="Enter password">
-          </label>
+          </label><br>
 
-          <button type="submit" class=" btn btn-success">Login</button>
+          <button type="submit" class=" btn btn-success" id="login_btn">Login</button>
           <!-- {% for message in messages %}
               {{message}}
           {% endfor %} -->
@@ -98,6 +98,8 @@
   const positions=document.getElementsByClassName('position')
   const register_btn= document.getElementById('register_btn')
   const message=document.getElementById('auth_message')
+  const uname=document.getElementById('uname')
+  const pw=document.getElementById('pw')
   
 
   // LOGIN 
@@ -135,7 +137,13 @@
 
 
               // CSRF TOKEN GENERATOR
-            function getCookie(name) {
+              
+              
+            
+              // ASYNCHRONOUS AUTHENTICATION PROCESS
+              register_form.onsubmit=(e)=>{
+                e.preventDefault()
+                function getCookie(name) {
                   let cookieValue = null;
                   if (document.cookie && document.cookie !== '') {
                       const cookies = document.cookie.split(';');
@@ -151,20 +159,14 @@
                   return cookieValue;
               }
               const csrftoken = getCookie('csrftoken');
-
               
-
-
-              // ASYNCHRONOUS AUTHENTICATION PROCESS
-              register_form.onsubmit= (e)=>{
-                e.preventDefault()
                 const data={
-                  'first_name':first_name.value,
-                  'last_name':last_name.value,
-                  'username':username.value,
-                  'email':email.value,
-                  'password1':password1.value,
-                  'password2':password2.value
+                  "first_name":first_name.value,
+                  "last_name":last_name.value,
+                  "username":username.value,
+                  "email":email.value,
+                  "password1":password1.value,
+                  "password2":password2.value
                 }
           
               // password1.type='text'
@@ -177,13 +179,15 @@
                     },
                     body: JSON.stringify(data)
                   
-                  }).then(response=>{
+                  }).then((response)=>{
                     // console.log(response)
                     return response.json()
-                  }).then(data=>{
+                  }).then((data)=>{
                     console.log(data.valid)
                     message.innerText=data.response
                     message.style.display='block'
+                    message.style.color='white'
+                    console.log(data)
                     if(data.valid == true){
                       location.href ="{%url 'member_page' %}"
                     }else{
@@ -193,6 +197,61 @@
                   })
                   
             }
+
+
+            
+
+            login_form.onsubmit=(e)=>{
+              e.preventDefault()
+              function getCookie(name) {
+                  let cookieValue = null;
+                  if (document.cookie && document.cookie !== '') {
+                      const cookies = document.cookie.split(';');
+                      for (let i = 0; i < cookies.length; i++) {
+                          const cookie = cookies[i].trim();
+                          // Does this cookie string begin with the name we want?
+                          if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                              cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                              break;
+                          }
+                      }
+                  }
+                  return cookieValue;
+              }
+              const csrftoken = getCookie('csrftoken');
+              
+
+
+              const data={
+                 "username":uname.value,
+                 "password":pw.value
+              }
+              fetch("{%url 'login_page' %}",{
+                method:'POST',
+                headers:{
+                  'Content-Type': 'application/json',
+                  'X-CSRFToken': csrftoken,
+                  'X-Requested-With':'XMLHttpRequest'
+                },
+                body: JSON.stringify(data)
+              }).then((response)=>{
+                try{
+                  return response.json()
+
+                }catch(error){
+                  console.log(error)
+                }
+              }).then((data)=>{
+                if(data.group=='teacher'){
+                  location.href="{%url 'teacher_page' %}"
+                }if(data.group=='student'){
+                  location.href="{%url 'student_page' %}"
+                }
+              })
+      
+            }
+        
+          
 </script>
 
 
